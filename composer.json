@@ -11,9 +11,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "lfn\\oat-question-api" : "./src"
+            "lfn\\oat-question-api\\" : "./src"
         }
     },
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.0"
+    },
+    "scripts": {
+        "style-check": "php vendor/bin/phpcs",
+        "style-fix": "php vendor/bin/phpcbf"
+    }
 }
