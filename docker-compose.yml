@@ -10,10 +10,20 @@ services:
       - ./:/www/oat-api
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
 
-  php:
-    container_name: oat-php
+  php-fpm:
+    container_name: oat-php-fpm
     build:
       context: ./docker/php
     volumes:
       - ./:/www/oat-api
     working_dir: /www/oat-api
+
+  swagger-ui:
+    container_name: oat-swagger-ui
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./open-api.yml:/open-api.yml
+    environment:
+      SWAGGER_JSON: /open-api.yml
