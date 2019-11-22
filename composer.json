@@ -1,0 +1,19 @@
+{
+    "name": "lfn/oat-question-api",
+    "description": "OAT Technical Accessment",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luis Fernando do Nascimento",
+            "email": "luisfn@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lfn\\oat-question-api" : "./src"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
