@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Lfn\Oat\QuestionApi;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

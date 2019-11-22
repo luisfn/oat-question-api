@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\" : "src/"
+            "Lfn\\Oat\\QuestionApi\\" : "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\" : "tests/"
+            "Lfn\\Oat\\QuestionApi\\Tests\\" : "tests/"
         }
     },
     "replace": {
