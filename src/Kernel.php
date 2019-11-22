@@ -2,6 +2,7 @@
 
 namespace Lfn\Oat\QuestionApi;
 
+use const PHP_VERSION_ID;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -32,8 +33,9 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
+        $classLoaderValue = PHP_VERSION_ID < 70400 || !ini_get('opcache.preload');
         $container->addResource(new FileResource($this->getProjectDir().'/config/bundles.php'));
-        $container->setParameter('container.dumper.inline_class_loader', \PHP_VERSION_ID < 70400 || !ini_get('opcache.preload'));
+        $container->setParameter('container.dumper.inline_class_loader', $classLoaderValue);
         $container->setParameter('container.dumper.inline_factories', true);
         $confDir = $this->getProjectDir().'/config';
 
