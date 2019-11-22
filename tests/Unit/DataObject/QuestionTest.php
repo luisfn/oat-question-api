@@ -3,6 +3,8 @@
 namespace Lfn\Oat\QuestionApi\Test\DataObject;
 
 use DateTime;
+use Lfn\Oat\QuestionApi\Collection\ChoiceCollection;
+use Lfn\Oat\QuestionApi\DataObject\Question;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,11 +20,11 @@ class QuestionTest extends TestCase
     public function shouldCreateQuestionProperly(): void
     {
         $dateTime = new DateTime();
-        $question = new Question('Test', $dateTime);
+        $question = new Question('text', $dateTime);
         $choices  = new ChoiceCollection();
 
         $this->assertSame('text', $question->getText());
         $this->assertSame($dateTime, $question->getCreatedAt());
-        $this->assertSame($choices, $question->getChoices());
+        $this->assertEquals($choices, $question->getChoices());
     }
 }

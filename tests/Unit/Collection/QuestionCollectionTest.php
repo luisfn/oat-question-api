@@ -3,6 +3,10 @@
 namespace Lfn\Oat\QuestionApi\Test\Collection;
 
 use DateTime;
+use Lfn\Oat\QuestionApi\Collection\QuestionCollection;
+use Lfn\Oat\QuestionApi\DataObject\Question;
+use Lfn\Oat\QuestionApi\Exception\EmptyCollectionException;
+use Lfn\Oat\QuestionApi\Exception\InvalidPositionException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,10 +22,10 @@ class QuestionCollectionTest extends TestCase
     public function shouldGetAllItems(): void
     {
         $collection = new QuestionCollection();
-        $question   = new Question('question'. new DateTime(), new ChoiceCollection());
+        $question   = new Question('text', new DateTime());
         $collection->add($question);
 
-        $items = $this->collection->getAll();
+        $items = $collection->getAll();
 
         self::assertSame([$question], $items);
     }
@@ -32,10 +36,10 @@ class QuestionCollectionTest extends TestCase
     public function shouldGetSingleItem(): void
     {
         $collection = new QuestionCollection();
-        $question   = new Question('question'. new DateTime(), new ChoiceCollection());
+        $question   = new Question('question', new DateTime());
         $collection->add($question);
 
-        $item = $this->collection->get(0);
+        $item = $collection->get(0);
 
         self::assertSame($question, $item);
     }
@@ -46,9 +50,12 @@ class QuestionCollectionTest extends TestCase
     public function shouldAddItem(): void
     {
         $collection = new QuestionCollection();
-        $question   = new Question('question'. new DateTime(), new ChoiceCollection());
+        $question   = new Question('question', new DateTime());
 
         $collection->add($question);
+
+        $this->assertSame(1, $collection->count());
+        $this->assertSame($question, $collection->get(0));
     }
 
     /**
@@ -57,9 +64,10 @@ class QuestionCollectionTest extends TestCase
     public function shouldThrowExceptionIfCollectionIsEmpty(): void
     {
         $collection = new QuestionCollection();
-        $collection->get(0);
 
-        $this->expectException('EmptyCollection');
+        $this->expectException(EmptyCollectionException::class);
+
+        $collection->get(0);
     }
 
     /**
@@ -68,9 +76,11 @@ class QuestionCollectionTest extends TestCase
     public function shouldThrowExceptionIfItemDoesNotExits(): void
     {
         $collection = new QuestionCollection();
-        $collection->get(0);
+        $collection->add(new Question('text', new DateTime()));
 
-        $this->expectException('ItemNotFound');
+        $this->expectException(InvalidPositionException::class);
+
+        $collection->get(1);
     }
 
     /**
@@ -79,7 +89,7 @@ class QuestionCollectionTest extends TestCase
     public function shouldGetItemCount(): void
     {
         $collection = new QuestionCollection();
-        $question   = new Question('question'. new DateTime(), new ChoiceCollection());
+        $question   = new Question('text', new DateTime());
 
         $collection->add($question);
 
@@ -91,11 +101,14 @@ class QuestionCollectionTest extends TestCase
      */
     public function shouldSerializeToJson(): void
     {
+        $dateTime   = DateTime::createFromFormat('d/m/Y H:i:s', '22/11/2019 00:00:00');
         $collection = new QuestionCollection();
-        $question   = new Question('question'. new DateTime(), new ChoiceCollection());
+        $question   = new Question('text', $dateTime);
 
         $collection->add($question);
 
-        $this->assertSame('{}', $collection->jsonSerialize());
+        $expected = '[{"text":"text","createdAt":{"date":"2019-11-22 00:00:00.000000","timezone_type":3,"timezone":"UTC"},"choices":{}}]';
+
+        $this->assertSame($expected, json_encode($collection->jsonSerialize()));
     }
 }

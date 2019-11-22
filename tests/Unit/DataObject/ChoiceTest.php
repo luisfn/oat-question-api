@@ -2,6 +2,7 @@
 
 namespace Lfn\Oat\QuestionApi\Test\DataObject;
 
+use Lfn\Oat\QuestionApi\DataObject\Choice;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,8 +17,8 @@ class ChoiceTest extends TestCase
      */
     public function shouldCreateChoiceProperly(): void
     {
-        $choice = new Choice('Test');
+        $choice = new Choice('text');
 
-        $this->assertSame('test', $choice->getText());
+        $this->assertSame('text', $choice->getText());
     }
 }

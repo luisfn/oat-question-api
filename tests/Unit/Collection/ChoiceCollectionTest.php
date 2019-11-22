@@ -2,6 +2,10 @@
 
 namespace Lfn\Oat\QuestionApi\Test\Collection;
 
+use Lfn\Oat\QuestionApi\Collection\ChoiceCollection;
+use Lfn\Oat\QuestionApi\DataObject\Choice;
+use Lfn\Oat\QuestionApi\Exception\EmptyCollectionException;
+use Lfn\Oat\QuestionApi\Exception\InvalidPositionException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +24,7 @@ class ChoiceCollectionTest extends TestCase
         $choice     = new Choice('choice');
         $collection->add($choice);
 
-        $items = $this->collection->getAll();
+        $items = $collection->getAll();
 
         self::assertSame([$choice], $items);
     }
@@ -34,7 +38,7 @@ class ChoiceCollectionTest extends TestCase
         $choice     = new Choice('choice');
         $collection->add($choice);
 
-        $item = $this->collection->get(0);
+        $item = $collection->get(0);
 
         self::assertSame($choice, $item);
     }
@@ -48,6 +52,9 @@ class ChoiceCollectionTest extends TestCase
         $choice     = new Choice('choice');
 
         $collection->add($choice);
+
+        $this->assertSame(1, $collection->count());
+        $this->assertSame($choice, $collection->get(0));
     }
 
     /**
@@ -56,9 +63,10 @@ class ChoiceCollectionTest extends TestCase
     public function shouldThrowExceptionIfCollectionIsEmpty(): void
     {
         $collection = new ChoiceCollection();
-        $collection->get(0);
 
-        $this->expectException('EmptyCollection');
+        $this->expectException(EmptyCollectionException::class);
+
+        $collection->get(0);
     }
 
     /**
@@ -67,9 +75,11 @@ class ChoiceCollectionTest extends TestCase
     public function shouldThrowExceptionIfItemDoesNotExits(): void
     {
         $collection = new ChoiceCollection();
-        $collection->get(0);
+        $collection->add(new Choice('text'));
 
-        $this->expectException('ItemNotFound');
+        $this->expectException(InvalidPositionException::class);
+
+        $collection->get(1);
     }
 
     /**
@@ -95,6 +105,6 @@ class ChoiceCollectionTest extends TestCase
 
         $collection->add($choice);
 
-        $this->assertSame('{}', $collection->jsonSerialize());
+        $this->assertSame('[{"text":"choice"}]', json_encode($collection->jsonSerialize()));
     }
 }
