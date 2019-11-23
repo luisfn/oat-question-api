@@ -1,0 +1,18 @@
+fos_rest:
+  param_fetcher_listener: force
+  view:
+    view_response_listener:  true
+  format_listener:
+    rules:
+      - { path: ^/, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+  exception:
+    enabled: true
+    exception_controller: 'fos_rest.exception.controller:showAction'
+    codes:
+      'FOS\RestBundle\Exception\InvalidParameterException': 400
+      '\LogicException': 404
+      'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
+    messages:
+      'FOS\RestBundle\Exception\InvalidParameterException': true
+      '\LogicException': true
+      'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true
