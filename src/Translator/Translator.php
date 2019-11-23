@@ -31,15 +31,12 @@ class Translator
      * @param QuestionCollection $questions
      * @param string             $lang
      *
-     * @return QuestionCollection
-     *
      * @throws TranslationException
      */
-    public function translate(QuestionCollection $questions, string $lang): QuestionCollection
+    public function translate(QuestionCollection $questions, string $lang): void
     {
         try {
-            foreach ($questions->getAll() as $question)
-            {
+            foreach ($questions->getAll() as $question) {
                 $translation = $this->googleTranslate->setTarget($lang)->translate($question->getText());
                 $question->setText($translation);
 
@@ -51,7 +48,5 @@ class Translator
         } catch (Exception $exception) {
             throw new TranslationException($exception->getMessage());
         }
-
-        return $questions;
     }
 }

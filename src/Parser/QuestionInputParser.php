@@ -69,7 +69,8 @@ class QuestionInputParser implements QuestionParserInterface
             case self::INPUT_TYPE_JSON:
                 return $this->questionJsonParser->parse($this->inputFile);
             default:
-                throw new InvalidInputTypeException('Input file type ' . $this->getInputFileExtension() . ' is invalid');
+                $message = 'Input file type ' . $this->getInputFileExtension() . ' is invalid';
+                throw new InvalidInputTypeException($message);
         }
     }
 

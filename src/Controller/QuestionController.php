@@ -11,8 +11,7 @@ use Lfn\Oat\QuestionApi\Exception\InputFileNotFoundException;
 use Lfn\Oat\QuestionApi\Exception\InvalidInputTypeException;
 use Lfn\Oat\QuestionApi\Exception\JsonParseException;
 use Lfn\Oat\QuestionApi\Exception\TranslationException;
-use Lfn\Oat\QuestionApi\Parser\QuestionInputParser;
-use Lfn\Oat\QuestionApi\Translator\Translator;
+use Lfn\Oat\QuestionApi\Service\QuestionService;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -22,25 +21,27 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class QuestionController extends AbstractFOSRestController
 {
-    /** @var QuestionInputParser */
-    private $questionInputParser;
-
-    /** @var Translator */
-    private $translator;
+    /** @var QuestionService */
+    private $questionService;
 
     /**
      * QuestionController constructor.
      *
-     * @param QuestionInputParser $questionInputParser
-     * @param Translator          $translator
+     * @param QuestionService $questionService
      */
-    public function __construct(QuestionInputParser $questionInputParser, Translator $translator)
+    public function __construct(QuestionService $questionService)
     {
-        $this->questionInputParser = $questionInputParser;
-        $this->translator          = $translator;
+        $this->questionService = $questionService;
     }
 
     /**
+     * @Get("/questions")
+     * @QueryParam(
+     *     name="lang",
+     *     description="Language (ISO-639-1 code) in which the questions and choices should be translated",
+     *     nullable=true
+     * )
+     *
      * @param string|null $lang
      *
      * @return View
@@ -50,17 +51,10 @@ class QuestionController extends AbstractFOSRestController
      * @throws InvalidInputTypeException
      * @throws JsonParseException
      * @throws TranslationException
-     *
-     * @Get("/questions")
-     * @QueryParam(name="lang", description="Language (ISO-639-1 code) in which the questions and choices should be translated", nullable=true, strict=true)
      */
     public function index(?string $lang)
     {
-        $collection = $this->questionInputParser->parse();
-
-        if ($lang !== NULL) {
-            $collection = $this->translator->translate($collection, $lang);
-        }
+        $collection = $this->questionService->getQuestions($lang);
 
         return View::create($collection, Response::HTTP_OK);
     }
