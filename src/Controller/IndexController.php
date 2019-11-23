@@ -2,6 +2,8 @@
 
 namespace Lfn\Oat\QuestionApi\Controller;
 
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -12,10 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 class IndexController
 {
     /**
-     * @return Response
+     * @return View
+     *
+     * @Get("/")
      */
     public function index()
     {
-        return new Response('OAT Question API');
+        return View::create(['OAT Question API'], Response::HTTP_OK);
     }
 }

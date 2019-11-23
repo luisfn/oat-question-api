@@ -1,11 +1,3 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-
-index:
-  path: /
-  controller: Lfn\Oat\QuestionApi\Controller\IndexController::index
-
-questions:
-  path: /questions
-  controller: Lfn\Oat\QuestionApi\Controller\QuestionController::index

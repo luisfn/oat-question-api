@@ -2,6 +2,13 @@
 
 namespace Lfn\Oat\QuestionApi\Controller;
 
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\View\View;
+use Lfn\Oat\QuestionApi\Exception\CsvParseException;
+use Lfn\Oat\QuestionApi\Exception\InputFileNotFoundException;
+use Lfn\Oat\QuestionApi\Exception\InvalidInputTypeException;
+use Lfn\Oat\QuestionApi\Exception\JsonParseException;
 use Lfn\Oat\QuestionApi\Parser\QuestionInputParser;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Lfn\Oat\QuestionApi\Controller
  */
-class QuestionController
+class QuestionController extends AbstractFOSRestController
 {
     /** @var QuestionInputParser */
     private $questionInputParser;
@@ -26,13 +33,19 @@ class QuestionController
     }
 
     /**
-     * @return Response
+     * @return View
+     *
+     * @throws CsvParseException
+     * @throws InputFileNotFoundException
+     * @throws InvalidInputTypeException
+     * @throws JsonParseException
+     *
+     * @Get("/questions")
      */
     public function index()
     {
         $collection = $this->questionInputParser->parse();
-        dd($collection);
 
-        return new Response('OAT Question API');
+        return View::create($collection, Response::HTTP_OK);
     }
 }
