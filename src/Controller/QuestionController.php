@@ -2,22 +2,27 @@
 
 namespace Lfn\Oat\QuestionApi\Controller;
 
-use Lfn\Oat\QuestionApi\Parser\InputParser;
+use Lfn\Oat\QuestionApi\Parser\QuestionInputParser;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class QuestionController
+ *
+ * @package Lfn\Oat\QuestionApi\Controller
+ */
 class QuestionController
 {
-    /** @var InputParser */
-    private $inputParser;
+    /** @var QuestionInputParser */
+    private $questionInputParser;
 
     /**
      * QuestionController constructor.
      *
-     * @param InputParser $inputParser
+     * @param QuestionInputParser $questionInputParser
      */
-    public function __construct(InputParser $inputParser)
+    public function __construct(QuestionInputParser $questionInputParser)
     {
-        $this->inputParser = $inputParser;
+        $this->questionInputParser = $questionInputParser;
     }
 
     /**
@@ -25,7 +30,7 @@ class QuestionController
      */
     public function index()
     {
-        $this->inputParser->parse();
+        $this->questionInputParser->parse();
 
 
         return new Response('OAT Question API');

@@ -5,14 +5,14 @@ namespace Lfn\Oat\QuestionApi\Exception;
 use Exception;
 
 /**
- * Class EmptyCollectionException
+ * Class InvalidInputTypeException
  *
  * @package Lfn\Oat\QuestionApi\Exception
  */
-class EmptyCollectionException extends Exception
+class InvalidInputTypeException extends Exception
 {
     /**
-     * InvalidPositionException constructor.
+     * InvalidInputTypeException constructor.
      */
     public function __construct()
     {

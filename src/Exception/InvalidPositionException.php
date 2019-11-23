@@ -7,7 +7,7 @@ use Exception;
 /**
  * Class InvalidPositionException
  *
- * @package Lfn\Oat\QuestionApi\Test\Exception
+ * @package Lfn\Oat\QuestionApi\Exception
  */
 class InvalidPositionException extends Exception
 {

@@ -5,14 +5,14 @@ namespace Lfn\Oat\QuestionApi\Exception;
 use Exception;
 
 /**
- * Class EmptyCollectionException
+ * Class InputFileNotFoundException
  *
  * @package Lfn\Oat\QuestionApi\Exception
  */
-class EmptyCollectionException extends Exception
+class InputFileNotFoundException extends Exception
 {
     /**
-     * InvalidPositionException constructor.
+     * InputFileNotFoundException constructor.
      */
     public function __construct()
     {
