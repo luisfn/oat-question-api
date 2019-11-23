@@ -3,5 +3,9 @@
 #    controller: App\Controller\DefaultController::index
 
 index:
-  path: /test
+  path: /
   controller: Lfn\Oat\QuestionApi\Controller\IndexController::index
+
+questions:
+  path: /questions
+  controller: Lfn\Oat\QuestionApi\Controller\QuestionController::index
