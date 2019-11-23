@@ -3,6 +3,7 @@
 namespace Lfn\Oat\QuestionApi\Translator;
 
 use Exception;
+use Lfn\Oat\QuestionApi\Collection\QuestionCollection;
 use Lfn\Oat\QuestionApi\Exception\TranslationException;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
@@ -27,18 +28,30 @@ class Translator
     }
 
     /**
-     * @param string $text
-     * @param string $lang
+     * @param QuestionCollection $questions
+     * @param string             $lang
      *
-     * @return string
+     * @return QuestionCollection
+     *
      * @throws TranslationException
      */
-    public function translate(string $text, string $lang): string
+    public function translate(QuestionCollection $questions, string $lang): QuestionCollection
     {
         try {
-            return $this->googleTranslate->setTarget($lang)->translate($text);
+            foreach ($questions->getAll() as $question)
+            {
+                $translation = $this->googleTranslate->setTarget($lang)->translate($question->getText());
+                $question->setText($translation);
+
+                foreach ($question->getChoices()->getAll() as $choice) {
+                    $translation = $this->googleTranslate->setTarget($lang)->translate($choice->getText());
+                    $choice->setText($translation);
+                }
+            }
         } catch (Exception $exception) {
             throw new TranslationException($exception->getMessage());
         }
+
+        return $questions;
     }
 }

@@ -107,7 +107,7 @@ class QuestionCollectionTest extends TestCase
 
         $collection->add($question);
 
-        $expected = '[{"text":"text","createdAt":{"date":"2019-11-22 00:00:00.000000","timezone_type":3,"timezone":"UTC"},"choices":{}}]';
+        $expected = '[{"text":"text","createdAt":"2019-11-22T00:00:00.000000Z","choices":{}}]';
 
         $this->assertSame($expected, json_encode($collection->jsonSerialize()));
     }

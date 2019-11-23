@@ -41,6 +41,8 @@ class QuestionController extends AbstractFOSRestController
     }
 
     /**
+     * @param string|null $lang
+     *
      * @return View
      *
      * @throws CsvParseException
@@ -56,9 +58,8 @@ class QuestionController extends AbstractFOSRestController
     {
         $collection = $this->questionInputParser->parse();
 
-        if ($lang) {
-            $newText = $this->translator->translate("I'm the best", $lang);
-            exit($newText);
+        if ($lang !== NULL) {
+            $collection = $this->translator->translate($collection, $lang);
         }
 
         return View::create($collection, Response::HTTP_OK);

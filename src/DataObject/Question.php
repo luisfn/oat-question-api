@@ -96,6 +96,9 @@ class Question implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return get_object_vars($this);
+        $vars = get_object_vars($this);
+        $vars['createdAt'] = $this->createdAt->format('Y-m-d\TH:i:s.u\Z');
+
+        return $vars;
     }
 }
