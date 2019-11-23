@@ -36,12 +36,14 @@ class Translator
     public function translate(QuestionCollection $questions, string $lang): void
     {
         try {
+            $this->googleTranslate->setTarget($lang);
+
             foreach ($questions->getAll() as $question) {
-                $translation = $this->googleTranslate->setTarget($lang)->translate($question->getText());
+                $translation = $this->googleTranslate->translate($question->getText());
                 $question->setText($translation);
 
                 foreach ($question->getChoices()->getAll() as $choice) {
-                    $translation = $this->googleTranslate->setTarget($lang)->translate($choice->getText());
+                    $translation = $this->googleTranslate->translate($choice->getText());
                     $choice->setText($translation);
                 }
             }

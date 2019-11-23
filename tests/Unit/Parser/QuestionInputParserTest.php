@@ -18,7 +18,7 @@ class QuestionInputParserTest extends TestCase
     /** @var QuestionCollection */
     private $questionCollection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->questionCollection = new QuestionCollection();
 
