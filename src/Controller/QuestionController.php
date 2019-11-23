@@ -2,6 +2,7 @@
 
 namespace Lfn\Oat\QuestionApi\Controller;
 
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -13,6 +14,7 @@ use Lfn\Oat\QuestionApi\Exception\JsonParseException;
 use Lfn\Oat\QuestionApi\Exception\TranslationException;
 use Lfn\Oat\QuestionApi\Service\QuestionService;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class QuestionController
@@ -45,17 +47,15 @@ class QuestionController extends AbstractFOSRestController
      * @param string|null $lang
      *
      * @return View
-     *
-     * @throws CsvParseException
-     * @throws InputFileNotFoundException
-     * @throws InvalidInputTypeException
-     * @throws JsonParseException
-     * @throws TranslationException
      */
     public function index(?string $lang)
     {
-        $collection = $this->questionService->getQuestions($lang);
+        try {
+            $collection = $this->questionService->getQuestions($lang);
 
-        return View::create($collection, Response::HTTP_OK);
+            return View::create($collection, Response::HTTP_OK);
+        } catch (Exception $exception) {
+            throw new HttpException(400, $exception->getMessage());
+        }
     }
 }

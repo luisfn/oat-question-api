@@ -13,8 +13,11 @@ class InvalidInputTypeException extends Exception
 {
     /**
      * InvalidInputTypeException constructor.
+     *
+     * @param string $message
      */
-    public function __construct()
+    public function __construct(string $message)
     {
+        parent::__construct($message);
     }
 }

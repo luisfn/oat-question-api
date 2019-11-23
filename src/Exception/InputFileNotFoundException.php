@@ -13,8 +13,11 @@ class InputFileNotFoundException extends Exception
 {
     /**
      * InputFileNotFoundException constructor.
+     *
+     * @param string $message
      */
-    public function __construct()
+    public function __construct(string $message)
     {
+        parent::__construct($message);
     }
 }
