@@ -13,6 +13,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             Lfn\Oat\QuestionApi\Parser\QuestionInputParser $questionInputParser: '@QuestionInputParser'
+            Stichoza\GoogleTranslate\GoogleTranslate $googleTranslate: '@GoogleTranslate'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -33,3 +34,7 @@ services:
         public: false
         arguments:
             $inputFile: '%input_file%'
+
+    GoogleTranslate:
+        class: Stichoza\GoogleTranslate\GoogleTranslate
+        public: false
