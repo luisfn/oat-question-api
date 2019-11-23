@@ -3,8 +3,10 @@
 namespace Lfn\Oat\QuestionApi\Parser;
 
 use Lfn\Oat\QuestionApi\Collection\QuestionCollection;
+use Lfn\Oat\QuestionApi\Exception\CsvParseException;
 use Lfn\Oat\QuestionApi\Exception\InputFileNotFoundException;
 use Lfn\Oat\QuestionApi\Exception\InvalidInputTypeException;
+use Lfn\Oat\QuestionApi\Exception\JsonParseException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -52,6 +54,8 @@ class QuestionInputParser implements QuestionParserInterface
     /**
      * @throws InputFileNotFoundException
      * @throws InvalidInputTypeException
+     * @throws JsonParseException
+     * @throws CsvParseException
      */
     public function parse(): QuestionCollection
     {
@@ -61,9 +65,9 @@ class QuestionInputParser implements QuestionParserInterface
 
         switch ($this->getInputFileExtension()) {
             case self::INPUT_TYPE_CSV:
-                return $this->questionCsvParser->parse();
+                return $this->questionCsvParser->parse($this->inputFile);
             case self::INPUT_TYPE_JSON:
-                return $this->questionJsonParser->parse();
+                return $this->questionJsonParser->parse($this->inputFile);
             default:
                 throw new InvalidInputTypeException('Input file type ' . $this->getInputFileExtension() . ' is invalid');
         }

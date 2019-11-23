@@ -30,8 +30,8 @@ class QuestionController
      */
     public function index()
     {
-        $this->questionInputParser->parse();
-
+        $collection = $this->questionInputParser->parse();
+        dd($collection);
 
         return new Response('OAT Question API');
     }

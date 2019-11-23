@@ -1,4 +1,7 @@
 {
+    "league/csv": {
+        "version": "9.x-dev"
+    },
     "psr/cache": {
         "version": "1.0.x-dev"
     },
