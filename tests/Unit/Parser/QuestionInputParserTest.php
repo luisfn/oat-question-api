@@ -28,11 +28,13 @@ class QuestionInputParserTest extends TestCase
         $question1->addChoice(new Choice('c1'));
         $question1->addChoice(new Choice('c2'));
         $question1->addChoice(new Choice('c3'));
+        $question1->addChoice(new Choice('c4'));
 
-        $question2 = new Question('q1', $dateTime);
+        $question2 = new Question('q2', $dateTime);
         $question2->addChoice(new Choice('c1'));
         $question2->addChoice(new Choice('c2'));
         $question2->addChoice(new Choice('c3'));
+        $question2->addChoice(new Choice('c4'));
 
         $this->questionCollection->add($question1);
         $this->questionCollection->add($question2);
@@ -75,7 +77,7 @@ class QuestionInputParserTest extends TestCase
     /**
      * @test
      */
-    public function shouldParseQuestionsInputInCsnFormat(): void
+    public function shouldParseQuestionsInputInCsvFormat(): void
     {
         $subject = $this->prepareSubject(__DIR__ . '/../../../tests/data/questions.csv');
 
